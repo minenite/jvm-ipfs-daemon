@@ -19,9 +19,9 @@ public class JavaTest {
         // /!\ You may need to run it asynchronously
         ipfsd.download();
 
-        // Print all output, but replace "Daemon is started" with "IPFS is ready!"
+        // Print all output, but replace "Daemon is ready" with "IPFS is ready!"
         ipfsd.setCallback(msg -> {
-            if(msg.equals("Daemon is started"))
+            if(msg.equals("Daemon is ready"))
                 msg = "IPFS is ready!";
             System.out.println(msg);
             return Unit.INSTANCE; // You need to return Unit because Kotlin cannot do it automatically

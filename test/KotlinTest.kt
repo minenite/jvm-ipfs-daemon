@@ -16,10 +16,10 @@ fun main(args: Array<String>){
     // /!\ You may need to run it asynchronously
     ipfsd.download()
 
-    // Print all output, but replace "Daemon is started" with "IPFS is ready!"
+    // Print all output, but replace "Daemon is ready" with "IPFS is ready!"
     ipfsd.callback = {
         var msg = it
-        if(msg == "Daemon is started") msg = "IPFS is ready!"
+        if(msg == "Daemon is ready") msg = "IPFS is ready!"
         println(msg)
     }
 
