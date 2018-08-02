@@ -32,7 +32,7 @@ Download, initialize, and run an IPFS node using only Java/Kotlin
           from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
       }
 
-- Maven: put the .JAR file in a lib folder and add this to your pom.xml
+- Maven: add this to your pom.xml
 
       <repositories>
         <repository>
