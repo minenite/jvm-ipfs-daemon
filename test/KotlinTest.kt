@@ -16,7 +16,7 @@ fun main(args: Array<String>){
     ipfsd.download()
 
     // Print all output, but replace "Daemon is ready" with "IPFS is ready!"
-    ipfsd.callback = {
+    ipfsd.callback = { _, it ->
         var msg = it
         if(msg == "Daemon is ready") msg = "IPFS is ready!"
         println(msg)

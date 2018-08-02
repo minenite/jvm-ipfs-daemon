@@ -19,7 +19,7 @@ public class JavaTest {
         ipfsd.download();
 
         // Print all output, but replace "Daemon is ready" with "IPFS is ready!"
-        ipfsd.setCallback(msg -> {
+        ipfsd.setCallback((process, msg) -> {
             if(msg.equals("Daemon is ready"))
                 msg = "IPFS is ready!";
             System.out.println(msg);

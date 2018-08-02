@@ -34,7 +34,7 @@ open class IPFSDaemon(val version: String, val path: File) {
     fun download() = download(version, bin)
     fun download(version: String, bin: File){
 
-        if(bin.exists()) return
+        if(bin.exists()) return listeners.onDownloaded.call()
 
         val err = {throw Exception("System not supported")}
 
@@ -66,7 +66,7 @@ open class IPFSDaemon(val version: String, val path: File) {
             ".tar.gz" -> extractTarGz(archive, archivepath, bin)
             ".zip" -> extractZip(archive, archivepath, bin)
         }
-
+        listeners.onDownloaded.call()
     }
 
     fun process(vararg args: String) = process(bin, store, *args)
@@ -84,22 +84,22 @@ open class IPFSDaemon(val version: String, val path: File) {
         val daemon = process("daemon")
         this.daemon = daemon
 
-        if(it) gobble()
+        if(it) gobble(daemon)
         daemon.waitFor()
     }
 
-    open var callback: (String) -> Unit = {println(it)}
+    open var callback: (Process, String) -> Unit = {_, it -> println(it)}
 
-    fun gobble() {
-        val daemon = daemon ?: return
-        Thread{gobble(daemon.inputStream, callback)}.start()
-        Thread{gobble(daemon.errorStream, callback)}.start()
+    fun gobble(process: Process){
+        Thread{gobble(process.inputStream, process, callback)}.start()
+        Thread{gobble(process.errorStream, process, callback)}.start()
     }
 
     open val listeners = Listeners()
     fun MutableList<Runnable>.call() = forEach{it.run()}
     inner class Listeners{
         val onDownloading = mutableListOf<Runnable>()
+        val onDownloaded = mutableListOf<Runnable>()
         val onInitializing = mutableListOf<Runnable>()
         val onStarting = mutableListOf<Runnable>()
     }
@@ -113,9 +113,9 @@ fun download(url: URL, file: File){
     fos.close()
 }
 
-fun gobble(input: InputStream, callback: (String) -> Unit) {
+fun gobble(input: InputStream, process: Process, callback: (Process, String) -> Unit) {
     val reader = BufferedReader(InputStreamReader(input))
-    while(true) callback(reader.readLine()?:return)
+    while(true) callback(process, reader.readLine()?:return)
 }
 
 fun process(bin: File, store: File, vararg args: String): Process {
