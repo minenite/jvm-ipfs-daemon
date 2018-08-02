@@ -31,3 +31,15 @@ Download, initialize, and run an IPFS node using only Java/Kotlin
       jar {
           from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
       }
+
+- Maven: put the .JAR file in a lib folder and add this to your pom.xml
+
+      <dependencies>
+        <dependency>
+            <groupId>fr.rhaz.ipfs</groupId>
+            <artifactId>ipfs-daemon</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/ipfs-daemon-1.0.jar</systemPath>
+        </dependency>
+      </dependencies>
