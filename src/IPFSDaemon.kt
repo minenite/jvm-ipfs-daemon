@@ -14,6 +14,8 @@ operator fun File.get(path: String) = File(this, path)
 
 fun main(args: Array<String>) = IPFSDaemon().apply{download(); start(true)}.let{Unit}
 
+val unit = Unit
+
 open class IPFSDaemon(val version: String, val path: File) {
 
     constructor(): this("0.4.17", File("."))

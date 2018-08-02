@@ -1,5 +1,4 @@
-package fr.rhaz.ipfs
-
+import fr.rhaz.ipfs.IPFSDaemon
 import java.io.File
 
 fun main(args: Array<String>){

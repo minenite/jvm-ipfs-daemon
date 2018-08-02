@@ -1,6 +1,5 @@
 import fr.rhaz.ipfs.IPFSDaemon;
-import kotlin.Unit;
-
+import static fr.rhaz.ipfs.IPFSDaemonKt.getUnit;
 import java.io.File;
 
 public class JavaTest {
@@ -24,7 +23,7 @@ public class JavaTest {
             if(msg.equals("Daemon is ready"))
                 msg = "IPFS is ready!";
             System.out.println(msg);
-            return Unit.INSTANCE; // You need to return Unit because Kotlin cannot do it automatically
+            return getUnit(); // You need to return Unit because Kotlin cannot do it automatically
         });
 
         // Init, start, and output to the callback

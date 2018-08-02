@@ -3,14 +3,14 @@ Download, initialize, and run an IPFS node using only Java/Kotlin
 
 ### Usage
 
-- [Kotlin example](https://github.com/RHazDev/IPFS-Daemon/blob/master/src/KotlinTest.kt)
+- [Kotlin example](https://github.com/RHazDev/IPFS-Daemon/blob/master/test/KotlinTest.kt)
 
       IPFSDaemon().apply{
         download()
         start(true)
       }
 
-- [Java example](https://github.com/RHazDev/IPFS-Daemon/blob/master/src/JavaTest.java)
+- [Java example](https://github.com/RHazDev/IPFS-Daemon/blob/master/test/JavaTest.java)
 
       IPFSDaemon ipfsd = new IPFSDaemon();
       ipfsd.download();
