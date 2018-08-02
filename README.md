@@ -21,11 +21,11 @@ Download, initialize, and run an IPFS node using only Java/Kotlin
 - Gradle: put the .JAR file in a "lib" folder and add this to your build.gradle
 
       repositories {
-          flatDir { dirs 'lib' }
+          maven { url 'https://mymavenrepo.com/repo/NIp3fBk55f5oF6VI1Wso/" }
       }
       
       dependencies {
-          compile name: 'ipfs-daemon-1.0'
+          compile 'fr.rhaz.ipfs:ipfs-daemon:1.0'
       }
       
       jar {
@@ -34,12 +34,18 @@ Download, initialize, and run an IPFS node using only Java/Kotlin
 
 - Maven: put the .JAR file in a lib folder and add this to your pom.xml
 
+      <repositories>
+        <repository>
+            <id>rhazdev</id>
+            <url>https://mymavenrepo.com/repo/NIp3fBk55f5oF6VI1Wso/</url>
+        </repository>
+      </repositories>
+
       <dependencies>
         <dependency>
             <groupId>fr.rhaz.ipfs</groupId>
             <artifactId>ipfs-daemon</artifactId>
             <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/ipfs-daemon-1.0.jar</systemPath>
+            <scope>compile</scope>
         </dependency>
       </dependencies>
