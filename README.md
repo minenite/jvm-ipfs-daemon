@@ -3,7 +3,7 @@ Download, initialize, and run an IPFS node using only Java/Kotlin
 
 ### Usage
 
-- [Kotlin example](https://github.com/RHazDev/IPFS-Daemon/blob/master/src/KotlinTest.kt):
+- [Kotlin example](https://github.com/RHazDev/IPFS-Daemon/blob/master/src/KotlinTest.kt)
 
       IPFSDaemon().apply{
         download()
@@ -18,7 +18,7 @@ Download, initialize, and run an IPFS node using only Java/Kotlin
 
 ### Implement it
     
-- Gradle: put the .JAR file in a "lib" folder and add this to your build.gradle
+- Gradle: add this to your build.gradle
 
       repositories {
           maven { url 'https://mymavenrepo.com/repo/NIp3fBk55f5oF6VI1Wso/" }
