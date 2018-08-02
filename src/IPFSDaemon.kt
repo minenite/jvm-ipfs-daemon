@@ -113,6 +113,11 @@ fun download(url: URL, file: File){
     fos.close()
 }
 
+fun gobble(process: Process, callback: (Process, String) -> Unit){
+    Thread{gobble(process.inputStream, process, callback)}.start()
+    Thread{gobble(process.errorStream, process, callback)}.start()
+}
+
 fun gobble(input: InputStream, process: Process, callback: (Process, String) -> Unit) {
     val reader = BufferedReader(InputStreamReader(input))
     while(true) callback(process, reader.readLine()?:return)
