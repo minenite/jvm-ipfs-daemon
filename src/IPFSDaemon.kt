@@ -29,7 +29,7 @@ open class IPFSDaemon(val version: String, val path: File) {
 
     open var daemon: Process? = null
 
-    init{ Runtime.getRuntime().addShutdownHook( Thread{daemon?.destroy()} )}
+    init{ Runtime.getRuntime().addShutdownHook( Thread{daemon?.destroyForcibly()} )}
 
     fun download() = download(version, bin)
     fun download(version: String, bin: File){
