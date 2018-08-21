@@ -29,6 +29,8 @@ open class IPFSDaemon(val version: String, val path: File) {
 
     open var daemon: Process? = null
 
+    open var args: Array<String> = emptyArray()
+
     init{ Runtime.getRuntime().addShutdownHook( Thread{daemon?.destroyForcibly()} )}
 
     fun download() = download(version, bin)
@@ -81,7 +83,7 @@ open class IPFSDaemon(val version: String, val path: File) {
         process("init").waitFor()
 
         listeners.onStarting.call()
-        val daemon = process("daemon")
+        val daemon = process("daemon", *args)
         this.daemon = daemon
 
         if(it) gobble(daemon)
