@@ -25,7 +25,7 @@ Download, initialize, and run an IPFS node using only Java/Kotlin
       }
       
       dependencies {
-          compile 'fr.rhaz.ipfs:ipfs-daemon:1.0'
+          compile 'fr.rhaz.ipfs:ipfs-daemon:1.0.7'
       }
       
       jar {
@@ -45,7 +45,7 @@ Download, initialize, and run an IPFS node using only Java/Kotlin
         <dependency>
             <groupId>fr.rhaz.ipfs</groupId>
             <artifactId>ipfs-daemon</artifactId>
-            <version>1.0</version>
+            <version>1.0.7</version>
             <scope>compile</scope>
         </dependency>
       </dependencies>
