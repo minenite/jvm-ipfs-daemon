@@ -68,6 +68,8 @@ open class IPFSDaemon(val version: String, val path: File) {
             ".tar.gz" -> extractTarGz(archive, archivepath, bin)
             ".zip" -> extractZip(archive, archivepath, bin)
         }
+
+        bin.setExecutable(true)
         listeners.onDownloaded.call()
     }
 
