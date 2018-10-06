@@ -21,7 +21,7 @@ Download, initialize, and run an IPFS node using only Java/Kotlin
 - Gradle: add this to your build.gradle
 
       repositories {
-          maven { url 'https://mymavenrepo.com/repo/NIp3fBk55f5oF6VI1Wso/" }
+          maven { url "https://mymavenrepo.com/repo/NIp3fBk55f5oF6VI1Wso/" }
       }
       
       dependencies {
