@@ -11,7 +11,7 @@ import java.util.function.Consumer
 import java.util.zip.GZIPInputStream
 import java.util.zip.ZipInputStream
 
-fun main(args: Array<String>) = IPFSDaemon().apply{download(); start(true)}.let{Unit}
+fun main(args: Array<String>) = IPFSDaemon().apply{download(); start()}.let{Unit}
 
 open class IPFSDaemon(val version: String, val path: File) {
 
@@ -35,7 +35,7 @@ open class IPFSDaemon(val version: String, val path: File) {
     }
 
     open fun download() = download(version, bin)
-    open fun download(version: String = this.version, bin: File = this.bin){
+    open fun download(version: String, bin: File){
 
         if(bin.exists()) return listeners.onDownloaded.call()
 
@@ -76,7 +76,8 @@ open class IPFSDaemon(val version: String, val path: File) {
 
     open fun process(vararg args: String) = process(bin, store, *args)
 
-    open var start: (gobble: Boolean) -> Unit = start@{
+    open fun start() = start.invoke()
+    open var start: () -> Unit = start@{
         val old = daemon
         if(old != null && old.isAlive) return@start
 
@@ -89,7 +90,7 @@ open class IPFSDaemon(val version: String, val path: File) {
         val daemon = process("daemon", *args.plus("--unrestricted-api"))
         this.daemon = daemon
 
-        if(it) gobble(daemon)
+        gobble(daemon)
         daemon.waitFor()
     }
 

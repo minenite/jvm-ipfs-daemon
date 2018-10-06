@@ -17,15 +17,15 @@ fun main(args: Array<String>){
     ipfsd.download()
 
     // Print all output, but replace "Daemon is ready" with "IPFS is ready!"
-    ipfsd.callback = { _, it ->
-        var msg = it
-        if(msg == "Daemon is ready") msg = "IPFS is ready!"
-        println(msg)
+    ipfsd.callback = { process, msg ->
+        println(
+            if(msg == "Daemon is ready") "IPFS is ready!"
+            else msg
+        )
     }
 
     // Init, start, and output to the callback
-    // false: if you do not want output
     // /!\ You may need to run it asynchronously
-    ipfsd.start(true)
+    ipfsd.start()
 
 }

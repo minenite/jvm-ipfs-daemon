@@ -32,8 +32,7 @@ public class JavaTest {
         );
 
         // Init, start, and output to the callback
-        // false: if you do not want output
         // /!\ You may need to run it asynchronously
-        ipfsd.getStart().invoke(true);
+        ipfsd.start();
     }
 }
