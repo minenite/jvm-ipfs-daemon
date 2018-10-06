@@ -7,9 +7,10 @@ fun main(args: Array<String>){
     val ipfsd = IPFSDaemon("0.4.13", File("test"))
 
     // We will tell the user if the download starts
-    ipfsd.listeners.onDownloading.add(Runnable{
+    ipfsd.listeners.onDownloading.add{
         println("Downloading go-ipfs 0.4.13...")
-    })
+    }
+
 
     // Download the file if it does not exists
     // /!\ You may need to run it asynchronously

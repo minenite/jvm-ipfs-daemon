@@ -6,15 +6,12 @@ import org.apache.commons.lang3.SystemUtils.*
 import java.io.*
 import java.net.URL
 import java.nio.channels.Channels
+import java.util.function.BiConsumer
+import java.util.function.Consumer
 import java.util.zip.GZIPInputStream
 import java.util.zip.ZipInputStream
 
-
-operator fun File.get(path: String) = File(this, path)
-
 fun main(args: Array<String>) = IPFSDaemon().apply{download(); start(true)}.let{Unit}
-
-val unit = Unit
 
 open class IPFSDaemon(val version: String, val path: File) {
 
@@ -31,10 +28,14 @@ open class IPFSDaemon(val version: String, val path: File) {
 
     open var args: Array<String> = emptyArray()
 
-    init{ Runtime.getRuntime().addShutdownHook( Thread{daemon?.destroyForcibly()} )}
+    init{
+        Runtime.getRuntime().addShutdownHook(
+            Thread{ daemon?.destroyForcibly() }
+        )
+    }
 
-    fun download() = download(version, bin)
-    fun download(version: String, bin: File){
+    open fun download() = download(version, bin)
+    open fun download(version: String = this.version, bin: File = this.bin){
 
         if(bin.exists()) return listeners.onDownloaded.call()
 
@@ -73,7 +74,7 @@ open class IPFSDaemon(val version: String, val path: File) {
         listeners.onDownloaded.call()
     }
 
-    fun process(vararg args: String) = process(bin, store, *args)
+    open fun process(vararg args: String) = process(bin, store, *args)
 
     open var start: (gobble: Boolean) -> Unit = start@{
         val old = daemon
@@ -85,7 +86,7 @@ open class IPFSDaemon(val version: String, val path: File) {
         process("init").waitFor()
 
         listeners.onStarting.call()
-        val daemon = process("daemon", *args)
+        val daemon = process("daemon", *args.plus("--unrestricted-api"))
         this.daemon = daemon
 
         if(it) gobble(daemon)
@@ -94,21 +95,22 @@ open class IPFSDaemon(val version: String, val path: File) {
 
     open var callback: (Process, String) -> Unit = {_, it -> println(it)}
 
-    fun gobble(process: Process){
+    open fun gobble(process: Process){
         Thread{gobble(process.inputStream, process, callback)}.start()
         Thread{gobble(process.errorStream, process, callback)}.start()
     }
 
-    open val listeners = Listeners()
-    fun MutableList<Runnable>.call() = forEach{it.run()}
-    inner class Listeners{
-        val onDownloading = mutableListOf<Runnable>()
-        val onDownloaded = mutableListOf<Runnable>()
-        val onInitializing = mutableListOf<Runnable>()
-        val onStarting = mutableListOf<Runnable>()
+    open var listeners = Listeners()
+    open inner class Listeners{
+        val onDownloading = mutableListOf<() -> Unit>()
+        val onDownloaded = mutableListOf<() -> Unit>()
+        val onInitializing = mutableListOf<() -> Unit>()
+        val onStarting = mutableListOf<() -> Unit>()
     }
 
 }
+
+// Top level functions
 
 fun download(url: URL, file: File){
     val rbc = Channels.newChannel(url.openStream())
@@ -131,6 +133,8 @@ fun process(bin: File, store: File, vararg args: String): Process {
     val cmd = ArrayUtils.insert(0, args, bin.path)
     return Runtime.getRuntime().exec(cmd, arrayOf("IPFS_PATH=${store.absolutePath}"))
 }
+
+// Extraction functions
 
 fun extractTarGz(arch: File, path: String,  destination: File) =
     TarArchiveInputStream(GZIPInputStream(FileInputStream(arch))).use {
@@ -155,3 +159,13 @@ fun extractZip(zip: File, path: String, destination: File) =
             }
         }
     }
+
+// Utils
+operator fun File.get(path: String) = File(this, path)
+fun MutableList<() -> Unit>.call() = forEach{it()}
+
+// Java compat
+val unit = Unit
+fun listener(callable: Runnable) = { callable.run(); Unit}
+fun <T> listener(callable: Consumer<T>): Function1<T, Unit> = { t -> callable.accept(t); Unit }
+fun <T,U> listener(callable: BiConsumer<T, U>): Function2<T, U, Unit> = { t, u -> callable.accept(t, u); Unit }
