@@ -1,5 +1,7 @@
-# IPFS daemon for JVM
-Download, initialize, and run an IPFS node using only Java/Kotlin
+<h4 align=center>
+    <img src="https://i.imgur.com/rIDSSyw.png"><br>
+    :checkered_flag: Download, initialize, and run an IPFS node using only Java/Kotlin :checkered_flag:
+</h4><hr>
 
 ### Usage
 
