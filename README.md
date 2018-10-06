@@ -7,14 +7,14 @@ Download, initialize, and run an IPFS node using only Java/Kotlin
 
       IPFSDaemon().apply{
         download()
-        start(true)
+        start()
       }
 
 - [Java example](https://github.com/RHazDev/IPFS-Daemon/blob/master/test/JavaTest.java)
 
       IPFSDaemon ipfsd = new IPFSDaemon();
       ipfsd.download();
-      ipfsd.start(true);
+      ipfsd.start();
 
 ### Implement it
     
@@ -25,7 +25,7 @@ Download, initialize, and run an IPFS node using only Java/Kotlin
       }
       
       dependencies {
-          compile 'fr.rhaz.ipfs:ipfs-daemon:1.0.7'
+          compile 'fr.rhaz.ipfs:ipfs-daemon:1.0.8'
       }
       
       jar {
@@ -45,7 +45,7 @@ Download, initialize, and run an IPFS node using only Java/Kotlin
         <dependency>
             <groupId>fr.rhaz.ipfs</groupId>
             <artifactId>ipfs-daemon</artifactId>
-            <version>1.0.7</version>
+            <version>1.0.8</version>
             <scope>compile</scope>
         </dependency>
       </dependencies>
