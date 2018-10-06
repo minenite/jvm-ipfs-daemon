@@ -87,7 +87,7 @@ open class IPFSDaemon(val version: String, val path: File) {
         process("init").waitFor()
 
         listeners.onStarting.call()
-        val daemon = process("daemon", *args.plus("--unrestricted-api"))
+        val daemon = process("daemon", *args)
         this.daemon = daemon
 
         gobble(daemon)
